@@ -12,14 +12,17 @@ export default class SplashScreen extends Phaser.Scene {
 
       //  Splash screen and progress bar textures.
       pack: {
-        files: [{
-          key: 'splash-screen',
-          type: 'image'
-        }, {
-          key: 'progress-bar',
-          type: 'image'
-        }]
-      }
+        files: [
+          {
+            key: 'splash-screen',
+            type: 'image',
+          },
+          {
+            key: 'progress-bar',
+            type: 'image',
+          },
+        ],
+      },
     });
   }
 
@@ -34,7 +37,7 @@ export default class SplashScreen extends Phaser.Scene {
     this.showProgressBar();
 
     //  HINT: Declare all game assets to be loaded here.
-    this.load.image('logo');
+    this.load.image('logo', 'catastrophe.png').image('bg', 'BG.png').image('toe-beans', 'toe-beans.png').image('grass', 'grass.png');
   }
 
   /**
@@ -45,7 +48,7 @@ export default class SplashScreen extends Phaser.Scene {
    */
   create() {
     //  We have nothing left to do here. Start the next scene.
-    this.scene.start('Game');
+    this.scene.start('Title');
   }
 
   //  ------------------------------------------------------------------------
@@ -66,7 +69,7 @@ export default class SplashScreen extends Phaser.Scene {
    */
   showProgressBar() {
     //  Get the progress bar filler texture dimensions.
-    const {width: w, height: h} = this.textures.get('progress-bar').get();
+    const { width: w, height: h } = this.textures.get('progress-bar').get();
 
     //  Create a shape to use as a mask for our progress bar filler.
     const mask = this.add.graphics();

@@ -19,7 +19,12 @@ export default class Game extends Phaser.Scene {
    */
   create(/* data */) {
     //  TODO: Replace this content with really cool game code here :)
+    const x = this.cameras.main.width / 2;
+    const y = this.cameras.main.height / 2;
+    this.add.image(x, y, 'bg');
     this.logo = this.add.existing(new Logo(this));
+
+    this.add.tileSprite(400, 538, 800, 128, 'grass');
   }
 
   /**
