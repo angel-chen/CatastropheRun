@@ -15,12 +15,12 @@ import * as scenes from '@/scenes';
 /**
  *  Game canvas width.
  */
-export const width = 640;
+export const width = 800;
 
 /**
  *  Game canvas height.
  */
-export const height = 480;
+export const height = 600;
 
 /**
  *  Adjust zoom factor.
@@ -77,15 +77,16 @@ export const physics = {
   /**
    *  Enable a physics engine by default on all game scenes.
    */
-  default: false,
+  default: 'arcade',
 
   /**
    *  Phaser Arcade Physics 2 parameters.
    *
    *  This engine becomes available under a `physics` property on game scenes.
    */
-  // arcade: {
-  // },
+  arcade: {
+    gravity: {y:200}
+  },
 
   /**
    *  Matter.js parameters.
