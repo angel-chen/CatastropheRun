@@ -33,6 +33,17 @@ export default class Title extends Phaser.Scene {
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     this.add.image(x, y, 'bg');
+    const clouds = this.add.image(410, 150, 'clouds');
+
+    this.tweens.add({
+      targets: clouds,
+      x: 390,
+      duration: 3000,
+      ease: 'Power5',
+      yoyo: true,
+      loop: -1,
+    });
+
     this.add.image(x, 325, 'toe-beans');
 
     //  Add the 'Catastrophe' logo.
@@ -46,8 +57,10 @@ export default class Title extends Phaser.Scene {
       loop: -1,
     });
 
+
+
     //  Adds grass across screen in tile: x, y, width, height, imageKey
-    this.add.tileSprite(400,538,800,128, 'grass');
+    this.add.tileSprite(400, 538, 800, 128, 'grass');
 
     //  Add a text label.
     const label = this.add.text(x, 550, 'START!', {
