@@ -24,6 +24,7 @@ export default class Game extends Phaser.Scene {
    */
 
   create(/* data */) {
+    
     //  TODO: Replace this content with really cool game code here :)
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;

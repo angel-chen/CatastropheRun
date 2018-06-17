@@ -103,6 +103,12 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.image('dead8', 'dead-08.png');
     this.load.image('dead9', 'dead-09.png');
     this.load.image('dead10', 'dead-10.png');
+
+    this.load.path = 'assets/music/';
+
+    this.load.audio('opening', 'playdate.mp3');
+    this.load.audio('gameplay', 'squirrel-short.mp3');
+
   }
 
   /**

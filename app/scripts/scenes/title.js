@@ -57,7 +57,9 @@ export default class Title extends Phaser.Scene {
       loop: -1,
     });
 
+    const opening = this.sound.add('opening');
 
+    opening.play();
 
     //  Adds grass across screen in tile: x, y, width, height, imageKey
     this.add.tileSprite(400, 538, 800, 128, 'grass');
@@ -70,11 +72,17 @@ export default class Title extends Phaser.Scene {
       strokeThickness: 4,
     });
 
+    const gameplay = this.sound.add('gameplay', { loop: true });
+
     //  Move the origin point to the center, make the label interactive.
     label.setOrigin(0.5, 0.5).setInteractive();
 
     //  When this label is clicked, move on to the next game scene.
-    label.on('pointerup', () => this.scene.start('Game'));
+    label.on('pointerup', () => {
+      this.scene.start('Game');
+      opening.stop();
+      gameplay.play();
+    });
   }
 
   /**
