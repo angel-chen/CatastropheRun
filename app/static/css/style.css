@@ -8,6 +8,7 @@ body {
   touch-action: none;
   height: 100%;
   display: grid;
+  background: #ffffff url("/img/pawprint.png") repeat right top;
 }
 * {
   margin: 0;

@@ -42,7 +42,8 @@ export default class SplashScreen extends Phaser.Scene {
       .image('bg', 'BG.png')
       .image('toe-beans', 'toe-beans.png')
       .image('grass', 'grass.png')
-      .image('clouds', 'clouds.png');
+      .image('clouds', 'clouds.png')
+      .image('scoreboard', 'scoreboard.png');
 
     this.load.path = 'assets/sprite-cat/idle/';
 
@@ -140,7 +141,7 @@ export default class SplashScreen extends Phaser.Scene {
 
     //  Place the filler texture on the progress bar "hole" of the splash
     //  screen.
-    const img = this.add.sprite(82, 282, 'progress-bar').setOrigin(0);
+    const img = this.add.sprite(162, 342, 'progress-bar').setOrigin(0);
 
     //  Apply the mask and move the shape at the same coordinates of the
     //  filler texture.

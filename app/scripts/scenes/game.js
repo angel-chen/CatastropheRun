@@ -28,12 +28,11 @@ export default class Game extends Phaser.Scene {
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     this.add.image(x, y, 'bg');
-    // this.logo = this.add.existing(new Logo(this));
+
     this.ground = this.physics.add.staticGroup();
 
-    this.ground.create(150, 538, 'grass').refreshBody();
-    this.fakeground = this.add.tileSprite(400, 538, 800, 128, 'grass');
-    // this.fakeground.autoScroll(-150, 0);
+    this.ground.create(400, 538, 'grass').refreshBody();
+
     this.anims.create({
       key: 'idle',
       frames: [
@@ -122,6 +121,15 @@ export default class Game extends Phaser.Scene {
 
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, this.ground);
+
+    this.add.image(690, 35, 'scoreboard').setScale(0.25);
+
+    //Preventing double jump off stars
+    this.startY = this.player.y;
+
+    if (this.player.y != this.startY) {
+      return;
+    }
   }
 
   /**
@@ -134,25 +142,26 @@ export default class Game extends Phaser.Scene {
    */
   update(/* t, dt */) {
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.startY = this.player.y;
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
-
-      this.player.anims.play('idle', true);
+      this.player.anims.play('run', true);
+      this.player.flipX = true;
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(160);
-
       this.player.anims.play('run', true);
-    } else if (this.cursors.up.isDown) {
-      this.player.anims.play('jump');
-    } else {
+      this.player.flipX = false;
+    } else if (this.cursors.space.isDown) {
+      this.player.anims.play('jump', true);
+    }
+    else {
       this.player.setVelocityX(0);
-
-      this.player.anims.play('run', true);
+      this.player.anims.play('idle', true);
     }
 
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.anims.play('fall', true);
+    if (this.cursors.space.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
+
     }
   }
 }
