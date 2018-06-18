@@ -43,7 +43,9 @@ export default class SplashScreen extends Phaser.Scene {
       .image('toe-beans', 'toe-beans.png')
       .image('grass', 'grass.png')
       .image('clouds', 'clouds.png')
-      .image('scoreboard', 'scoreboard.png');
+      .image('scoreboard', 'scoreboard.png')
+      .image('mushroom', 'mushroom.png')
+      .image('crate', 'crate.png');
 
     this.load.path = 'assets/sprite-cat/idle/';
 
@@ -108,7 +110,6 @@ export default class SplashScreen extends Phaser.Scene {
 
     this.load.audio('opening', 'playdate.mp3');
     this.load.audio('gameplay', 'squirrel-short.mp3');
-
   }
 
   /**

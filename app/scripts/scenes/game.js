@@ -8,11 +8,11 @@ export default class Game extends Phaser.Scene {
    */
   constructor() {
     super({ key: 'Game' });
-    this.player = null;
-    this.platforms = null;
+    // this.player = null;
+    // this.platforms = null;
     this.score = 0;
-    this.scoreText = '';
-    this.gameOver = false;
+    // this.scoreText = '';
+    // this.gameOver = false;
   }
 
   /**
@@ -24,15 +24,17 @@ export default class Game extends Phaser.Scene {
    */
 
   create(/* data */) {
-    
     //  TODO: Replace this content with really cool game code here :)
-    const x = this.cameras.main.width / 2;
-    const y = this.cameras.main.height / 2;
-    this.add.image(x, y, 'bg');
+    // const x = this.cameras.main.width / 2;
+    // const y = this.cameras.main.height / 2;
+    this.mountain = this.add.tileSprite(0, 0, 800, 600, 'bg').setOrigin(0);
 
     this.ground = this.physics.add.staticGroup();
 
     this.ground.create(400, 538, 'grass').refreshBody();
+    // var groundData = [];
+
+    this.grass = this.add.tileSprite(400, 538, 800, 129, 'grass');
 
     this.anims.create({
       key: 'idle',
@@ -64,7 +66,7 @@ export default class Game extends Phaser.Scene {
         { key: 'run7' },
         { key: 'run8', duration: 100 },
       ],
-      frameRate: 15,
+      frameRate: 13,
       repeat: -1,
     });
 
@@ -119,7 +121,7 @@ export default class Game extends Phaser.Scene {
     });
 
     this.player = this.physics.add.sprite(158, 310, 'idle1').setScale(0.3);
-
+    this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, this.ground);
 
@@ -131,6 +133,30 @@ export default class Game extends Phaser.Scene {
     if (this.player.y != this.startY) {
       return;
     }
+
+    this.shroom = this.physics.add.group({
+      key: 'mushroom',
+      repeat: 6,
+      setXY: { x: 50, y: 0, stepX: 100 },
+    });
+
+    this.shroom.children.iterate(child => {
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+      if (child.y === 600) {
+
+        child.setVelocityX(-50);
+      }
+    });
+
+    this.physics.add.collider(this.shroom, this.ground);
+  }
+
+  collectStar(player, shroom) {
+    let score;
+    shroom.disableBody(true, true);
+
+    score += 10;
+    this.scoreText.setText(score);
   }
 
   /**
@@ -142,9 +168,13 @@ export default class Game extends Phaser.Scene {
    *  @param {number} dt Time elapsed since last update.
    */
   update(/* t, dt */) {
+    this.mountain.tilePositionX += 2;
+    this.grass.tilePositionX += 2;
+
     this.cursors = this.input.keyboard.createCursorKeys();
+
     this.startY = this.player.y;
-    if (this.cursors.left.isDown) {
+    if (this.cursors.left.isDown && !this.cursors.space.isDown) {
       this.player.setVelocityX(-160);
       this.player.anims.play('run', true);
       this.player.flipX = true;
@@ -154,15 +184,17 @@ export default class Game extends Phaser.Scene {
       this.player.flipX = false;
     } else if (this.cursors.space.isDown) {
       this.player.anims.play('jump', true);
-    }
-    else {
+    } else {
       this.player.setVelocityX(0);
-      this.player.anims.play('idle', true);
+      this.player.anims.play('run', true);
     }
 
     if (this.cursors.space.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
-
     }
+
+    //to load 'Game Over'
+    //this.scene.start('GameOver');
+    //probably stop gameplay music
   }
 }
