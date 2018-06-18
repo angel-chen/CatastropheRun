@@ -85,8 +85,8 @@ export const physics = {
    *  This engine becomes available under a `physics` property on game scenes.
    */
   arcade: {
-    gravity: {y:200},
-    debug: false
+    gravity: {y:250},
+    debug: true
   },
 
   /**

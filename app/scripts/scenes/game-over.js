@@ -32,6 +32,7 @@ export default class GameOver extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    this.scene.start('Game');
   }
 
   /**

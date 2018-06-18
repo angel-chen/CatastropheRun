@@ -10,7 +10,7 @@ export default class Game extends Phaser.Scene {
     super({ key: 'Game' });
     // this.player = null;
     // this.platforms = null;
-    this.score = 0;
+    this.score = -100;
     // this.scoreText = '';
     // this.gameOver = false;
   }
@@ -127,6 +127,11 @@ export default class Game extends Phaser.Scene {
 
     this.add.image(690, 35, 'scoreboard').setScale(0.25);
 
+    this.scoreText = this.add.text(675, 18, '0', {
+      fontSize: '30px',
+      fill: '#fff',
+    });
+
     //Preventing double jump off stars
     this.startY = this.player.y;
 
@@ -134,29 +139,37 @@ export default class Game extends Phaser.Scene {
       return;
     }
 
-    this.shroom = this.physics.add.group({
-      key: 'mushroom',
-      repeat: 6,
-      setXY: { x: 50, y: 0, stepX: 100 },
-    });
+    // this.shroom = this.physics.add.group({
+    //   key: 'mushroom',
+    //   repeat: 6,
+    //   setXY: { x: 50, y: 0, stepX: 100 },
+    // });
 
-    this.shroom.children.iterate(child => {
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-      if (child.y === 600) {
+    // this.shroom.children.iterate(child => {
+    //   child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+    // });
 
-        child.setVelocityX(-50);
-      }
-    });
+    // this.physics.add.collider(this.shroom, this.ground);
 
-    this.physics.add.collider(this.shroom, this.ground);
+    this.makeCrates();
   }
 
-  collectStar(player, shroom) {
-    let score;
-    shroom.disableBody(true, true);
+  makeCrates() {
+    this.score += 100;
+    this.scoreText.setText(this.score);
+    this.crates = this.physics.add.group({
+      key: 'crate',
+      repeat: Math.floor(Math.random() * 2 + 1),
+      setXY: { x: 700, y: 150, stepY: 100 },
+    });
 
-    score += 10;
-    this.scoreText.setText(score);
+    this.crates.children.iterate(crate => {
+      crate.setVelocityX(-100);
+    });
+
+    this.physics.add.collider(this.player, this.crates);
+    this.physics.add.collider(this.crates);
+    this.physics.add.collider(this.crates, this.ground);
   }
 
   /**
@@ -168,6 +181,11 @@ export default class Game extends Phaser.Scene {
    *  @param {number} dt Time elapsed since last update.
    */
   update(/* t, dt */) {
+    var crateExist = this.crates.getChildren()[0];
+    if (crateExist.x < 0 || crateExist.x > 800) {
+      this.makeCrates();
+    }
+
     this.mountain.tilePositionX += 2;
     this.grass.tilePositionX += 2;
 
@@ -177,11 +195,9 @@ export default class Game extends Phaser.Scene {
     if (this.cursors.left.isDown && !this.cursors.space.isDown) {
       this.player.setVelocityX(-160);
       this.player.anims.play('run', true);
-      this.player.flipX = true;
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown && !this.cursors.space.isDown) {
       this.player.setVelocityX(160);
       this.player.anims.play('run', true);
-      this.player.flipX = false;
     } else if (this.cursors.space.isDown) {
       this.player.anims.play('jump', true);
     } else {
