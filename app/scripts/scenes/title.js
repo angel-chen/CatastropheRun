@@ -33,6 +33,17 @@ export default class Title extends Phaser.Scene {
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     this.add.image(x, y, 'bg');
+    const clouds = this.add.image(410, 150, 'clouds');
+
+    this.tweens.add({
+      targets: clouds,
+      x: 390,
+      duration: 3000,
+      ease: 'Power5',
+      yoyo: true,
+      loop: -1,
+    });
+
     this.add.image(x, 325, 'toe-beans');
 
     //  Add the 'Catastrophe' logo.
@@ -46,22 +57,35 @@ export default class Title extends Phaser.Scene {
       loop: -1,
     });
 
+    const opening = this.sound.add('opening');
+
+    opening.play();
+
     //  Adds grass across screen in tile: x, y, width, height, imageKey
-    this.add.tileSprite(400,538,800,128, 'grass');
+    this.add.tileSprite(400, 538, 800, 128, 'grass');
+
+    let play = this.add.image(x, 550, 'play-hover').setScale(0.5);
 
     //  Add a text label.
-    const label = this.add.text(x, 550, 'START!', {
-      font: '45px Helvetica',
-      color: '#7a4621',
-      stroke: 'white',
-      strokeThickness: 4,
-    });
+    // const label = this.add.text(x, 550, 'START!', {
+    //   font: '45px Helvetica',
+    //   color: '#7a4621',
+    //   stroke: 'white',
+    //   strokeThickness: 4,
+    // });
+
+    const gameplay = this.sound.add('gameplay', { loop: true });
 
     //  Move the origin point to the center, make the label interactive.
-    label.setOrigin(0.5, 0.5).setInteractive();
+    play.setOrigin(0.5, 0.5).setInteractive();
 
-    //  When this label is clicked, move on to the next game scene.
-    label.on('pointerup', () => this.scene.start('Game'));
+
+    //  When the button is clicked, move on to the next game scene.
+    play.on('pointerup', () => {
+      this.scene.start('Game');
+      opening.stop();
+      gameplay.play();
+    });
   }
 
   /**

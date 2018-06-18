@@ -2,7 +2,7 @@
   "title": "Catastrophe Run",
   "description": "An endless running game with cats",
   "version": "1.0.0",
-  "url": "https://example.com/",
+  "url": "https://github.com/angel-chen/CatastropheRun",
   "scripts": {
     "clean": "gulp clean",
     "dist": "gulp dist",
