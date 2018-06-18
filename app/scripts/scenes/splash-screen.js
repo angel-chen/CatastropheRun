@@ -45,7 +45,9 @@ export default class SplashScreen extends Phaser.Scene {
       .image('clouds', 'clouds.png')
       .image('scoreboard', 'scoreboard.png')
       .image('mushroom', 'mushroom.png')
-      .image('crate', 'crate.png');
+      .image('crate', 'crate.png')
+      .image('play', 'play-button.png')
+      .image('play-hover', 'play-button-active.png');
 
     this.load.path = 'assets/sprite-cat/idle/';
 
