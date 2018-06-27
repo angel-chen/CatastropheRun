@@ -152,6 +152,10 @@ export default class Game extends Phaser.Scene {
     // this.physics.add.collider(this.shroom, this.ground);
 
     this.makeCrates();
+
+    this.physics.add.collider(this.crates);
+    this.physics.add.collider(this.crates, this.ground);
+    this.physics.add.collider(this.player, this.crates, this.hitCrates, null, this);
   }
 
   makeCrates() {
@@ -167,9 +171,13 @@ export default class Game extends Phaser.Scene {
       crate.setVelocityX(-100);
     });
 
-    this.physics.add.collider(this.player, this.crates);
-    this.physics.add.collider(this.crates);
-    this.physics.add.collider(this.crates, this.ground);
+
+  }
+
+  hitCrates() {
+    this.player.setVelocityX(100);
+    this.player.anims.play('dead');
+
   }
 
   /**
@@ -184,7 +192,12 @@ export default class Game extends Phaser.Scene {
     var crateExist = this.crates.getChildren()[0];
     if (crateExist.x < 0 || crateExist.x > 800) {
       this.makeCrates();
+      this.physics.add.collider(this.crates);
+      this.physics.add.collider(this.crates, this.ground);
+      this.physics.add.collider(this.player, this.crates, this.hitCrates, null, this);
     }
+
+
 
     this.mountain.tilePositionX += 2;
     this.grass.tilePositionX += 2;
@@ -195,9 +208,11 @@ export default class Game extends Phaser.Scene {
     if (this.cursors.left.isDown && !this.cursors.space.isDown) {
       this.player.setVelocityX(-160);
       this.player.anims.play('run', true);
+      this.player.flipX = true;
     } else if (this.cursors.right.isDown && !this.cursors.space.isDown) {
       this.player.setVelocityX(160);
       this.player.anims.play('run', true);
+      this.player.flipX = false;
     } else if (this.cursors.space.isDown) {
       this.player.anims.play('jump', true);
     } else {
